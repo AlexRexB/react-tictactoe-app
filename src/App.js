@@ -1,30 +1,17 @@
 import React from 'react';
 import './App.css';
-import Game from './components/TicTacToe/index.js'
+import Game from './components/TicTacToe/index.js';
+import Login from './components/login/index.js';
 
-class Login extends React.Component {
-  constructor(props){
-    super(props)
-    this.username = document.getElementById("username");
-  }
-  clickHandler() {
-    console.log("User is logging on");
-    console.log(this);
-    for(const user of this.props.users){
-      if(this.refs.username.value === user.username && 
-        this.refs.password.value === user.password)
-        this.props.logInUser();
-    }
-  }
-    
-  render(){
-    return <div>
-      <input ref ="username" type="text"/>
-      <input ref ="password" type="text"/>
-      <input type="button" value="Login" onClick={() => this.clickHandler()}/>
-     </div>;
-  }
+function Register() {
+  return <div>
+    <span>First Name</span><input></input><br/>
+    <span>Last Name</span><input></input><br/>
+    <span>Username</span><input></input><br/>
+    <span>Password</span><input type="password"></input><br/>
+  </div>
 }
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -38,16 +25,16 @@ class App extends React.Component {
   }
   
   render(){
-    let returnComponent;
-    const login = <Login users={this.state.users} 
-      logInUser={() => this.logInUser(true)} />;
-    const game = <Game logOutUser={() => this.logInUser(false)}/>;
-    if(!this.state.loggedIn) {
-      returnComponent = login;
-    } else {
-      returnComponent = game;
-    }
-    return returnComponent;
+    return (
+      (!this.state.register) ?
+        <Register />
+      :
+        (!this.state.loggedIn) ?
+      <Login users={this.state.users}
+        logInUser={() => this.logInUser(true)} />
+        :
+      <Game logOutUser={() => this.logInUser(false)}/>
+    )
   }
 }
 
